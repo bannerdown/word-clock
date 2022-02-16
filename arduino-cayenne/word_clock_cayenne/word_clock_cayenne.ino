@@ -16,7 +16,7 @@ int nh,nm,ns,ndy,nmo,nyr,ndw;          // NTP-based time & date variables
 boolean updateDisplay = true;
 float brightness = 30;
 int red = 0, green = 255, blue = 255;
-int baseTimezone = -1;
+int baseTimezone = 0;   //local base timezone - UK = 0
 boolean updateTimezone = false;
 
 void setup() {
@@ -40,22 +40,42 @@ void loop() {
 }
 
 CAYENNE_IN_DEFAULT() {
+
+  spln("into Cayenne in default");
+
   if (request.channel == 0) {
     red = getValue.asInt();
     updateDisplay = true;
+   
+    
   } else if (request.channel == 1) {
     green = getValue.asInt();
     updateDisplay = true;
+     
   } else if (request.channel == 2) {
     blue = getValue.asInt();
     updateDisplay = true;
+    
+     
   } else if (request.channel == 3) {
     brightness = getValue.asInt();
     updateDisplay = true;
+         
   } else if (request.channel == 4) {
     baseTimezone = getValue.asInt();
     updateTimezone = true;
     updateDisplay = true;
+    
   }
+}
+
+CAYENNE_OUT_DEFAULT()
+{
+  // Write data to Cayenne here. This example just sends the current uptime in milliseconds on virtual channel 0.
+  // Cayenne.virtualWrite(0, millis());
+  // Some examples of other functions you can use to send data.
+  //Cayenne.celsiusWrite(1, 22.0);
+  //Cayenne.luxWrite(2, 700);
+  //Cayenne.virtualWrite(3, 50, TYPE_PROXIMITY, UNIT_CENTIMETER);
 }
 
