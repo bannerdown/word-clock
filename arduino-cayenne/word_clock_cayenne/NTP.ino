@@ -4,7 +4,7 @@ unsigned int localPort = 2390;      // local port to listen for UDP packets
  *  Lookup the IP address for the host name instead */
 //IPAddress timeServer(129, 6, 15, 28); // time.nist.gov NTP server
 IPAddress timeServerIP; // time.nist.gov NTP server address
-const char* ntpServerName = "time.nist.gov";
+const char* ntpServerName = "0.pool.ntp.org"; //"time.nist.gov";
 const int NTP_PACKET_SIZE = 48; // NTP time stamp is in the first 48 bytes of the message
 byte packetBuffer[ NTP_PACKET_SIZE]; //buffer to hold incoming and outgoing packets
 boolean doNTP=false;
@@ -26,6 +26,7 @@ unsigned long lastNTPUpdate = 0;
 void setupNTP() {
     RTC.begin(DateTime(F(__DATE__), F(__TIME__)));    // initially set to compile date & time
     udp.begin(localPort);
+    updateTimeFromNTP();  //initialise time from NTP otherwise first update is an hour after switchon
 }
 
 void loopNTP() {
