@@ -369,10 +369,13 @@ void getTimeMatrix(boolean matrix[], int h, int m, int s) {
   time+=":"; if(m < 10) time+="0"; time+=m;
 
   String timeString;
-  timeString += h%12 == 1 ? "E' l'" : "Sono le "; 
-  timeString += getHour(m > 35 ? (h+1)%12 : h%12);
-  timeString += getSeparator(m);
+ // timeString += h%12 == 1 ? "E' l'" : "Sono le "; 
+  timeString += "The time is ";
   timeString += getMinutes(m);
+  timeString += getSeparator(m);
+  timeString += getHour(m > 35 ? (h+1)%12 : h%12);
+  
+  
   spln("");sp(F("\tWords: ")); sp(timeString);
   spln("");spln("");
 }
@@ -454,18 +457,19 @@ void combine(boolean result[], boolean other[]) {
 }
 
 String getHour(int hour) {
-  if (hour == 1) return "una";
-  if (hour == 2) return "due";
-  if (hour == 3) return "tre";
-  if (hour == 4) return "quattro";
-  if (hour == 5) return "cinque";
-  if (hour == 6) return "sei";
-  if (hour == 7) return "sette";
-  if (hour == 8) return "otto";
-  if (hour == 9) return "nove";
-  if (hour == 10) return "dieci";
-  if (hour == 11) return "undici";
-  if (hour == 12 || hour == 0) return "dodici";
+  if (hour == 1) return "one";
+  if (hour == 2) return "two";
+  if (hour == 3) return "three";
+  if (hour == 4) return "four";
+  if (hour == 5) return "five";
+  if (hour == 6) return "six";
+  if (hour == 7) return "seven";
+  if (hour == 8) return "eight";
+  if (hour == 9) return "nine";
+  if (hour == 10) return "ten";
+  if (hour == 11) return "eleven";
+  if (hour == 12 || hour == 0) return "twelve";
+  return "nohour"; // added this as compiler had a warning message control reaches end of non-void function
 }
 
 String getSeparator(int minutes) {
@@ -473,9 +477,9 @@ String getSeparator(int minutes) {
       return "";
   }
   if (minutes < 35) {
-      return " e ";
+      return " past ";
   }
-  return " meno ";
+  return " to ";
 }
 
 String getMinutes(int minutes) {
@@ -483,20 +487,19 @@ String getMinutes(int minutes) {
     return "";
   }
   if (minutes < 10 || minutes >= 55) {
-    return "cinque";
+    return "five";
   }
   if (minutes < 15 || minutes >= 50) {
-    return "dieci";
+    return "ten";
   }
   if (minutes < 20 || minutes >= 45) {
-    return "un quarto";
+    return "a quarter";
   }
   if (minutes < 25 || minutes >= 40) {
-    return "venti";
+    return "twenty";
   }
   if (minutes < 30 || minutes >= 35) {
-    return "venticinque";
+    return "twentyfive";
   }
-  return "mezza";
+  return "half";
 }
-
